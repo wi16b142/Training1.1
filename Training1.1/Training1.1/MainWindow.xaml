@@ -1,0 +1,50 @@
+﻿<Window x:Class="Training1._1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Training1._1"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+        xmlns:converters="clr-namespace:Training1._1.Converter"
+        mc:Ignorable="d"
+        Title="Training 1.1 by Sascha Böck" Height="350" Width="525">
+    <Window.Resources>
+        <converters:BoolToBrush x:Key="BoolToBrush"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*"/>
+            <RowDefinition Height="19*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="350*"/>
+        </Grid.ColumnDefinitions>
+
+        <ItemsControl Margin="5" ItemsSource="{Binding Buttons}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TabPanel Margin="5">
+                        <Button Content="{Binding Name}"/>
+                        <Label Width="10"/>
+                        <Ellipse Width="15" Height="15"  Fill="{Binding State, Converter={StaticResource BoolToBrush}}" />
+                    </TabPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <DataGrid Grid.Column="1" Margin="10" AutoGenerateColumns="False" ItemsSource="{Binding Log}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Mode=OneWay}" ClipboardContentBinding="{x:Null}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <TabPanel HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1" Margin="10">
+            <Button Content="Listen" Command="{Binding ListenBtnClick}"/>
+            <Label Width="20"></Label>
+            <Button Content="Connect" Command="{Binding ConnectBtnClick}"/>
+        </TabPanel>
+        
+    </Grid>
+</Window>
