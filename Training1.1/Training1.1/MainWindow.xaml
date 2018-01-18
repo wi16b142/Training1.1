@@ -24,8 +24,8 @@
         <ItemsControl Margin="5" ItemsSource="{Binding Buttons}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TabPanel Margin="5">
-                        <Button Content="{Binding Name}"/>
+                    <TabPanel HorizontalAlignment="Center" Margin="5">
+                        <Button Content="{Binding Name}" CommandParameter="{Binding}" Command="{Binding DataContext.ToggleBtnClick, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
                         <Label Width="10"/>
                         <Ellipse Width="15" Height="15"  Fill="{Binding State, Converter={StaticResource BoolToBrush}}" />
                     </TabPanel>
@@ -33,9 +33,9 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <DataGrid Grid.Column="1" Margin="10" AutoGenerateColumns="False" ItemsSource="{Binding Log}">
+        <DataGrid Grid.Column="1" Margin="10" AutoGenerateColumns="False" ItemsSource="{Binding Log}" HeadersVisibility="None">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Mode=OneWay}" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{Binding Mode=OneWay}" ClipboardContentBinding="{x:Null}" CanUserResize="False" Width="*"/>
             </DataGrid.Columns>
 
         </DataGrid>

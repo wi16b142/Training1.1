@@ -11,6 +11,12 @@ namespace Training1._1.ViewModel
     {
         string name = "toggle";
         bool state = true;
+        static int i = 0;
+
+        public ButtonVM()
+        {
+            Name += ++i;
+        }
 
         public string Name { get => name; private set => name = value; }
         public bool State

@@ -41,6 +41,7 @@ namespace Training1._1.ViewModel
             set { toggleBtnClick = value; }
         }
         private ObservableCollection<string> log;
+        bool isServer = false;
 
         public ObservableCollection<string> Log
         {
@@ -69,23 +70,26 @@ namespace Training1._1.ViewModel
             {
                 ListenBtnClick = new RelayCommand(()=> 
                 {
-                    com = new Communication(true,GuiUpdate);
+                    isServer = true;
+                    com = new Communication(isServer,GuiUpdate);
                     isConnected = true;
                 }, ()=> { return !isConnected; } );
 
                 ConnectBtnClick = new RelayCommand(()=> 
                 {
-                    com = new Communication(false, GuiUpdate);
+                    com = new Communication(isServer, GuiUpdate);
                     isConnected = true;
-                },()=> { return !isConnected; });               
+                },()=> { return !isConnected; });
+
+                ToggleBtnClick = new RelayCommand<ButtonVM>((p) =>
+                {
+                    string msg = p.Name + "@" + !p.State;
+                    com.Send(msg);
+                    GuiUpdate(msg);
+                }, (p) => { return isServer; });
             }
 
-            ToggleBtnClick = new RelayCommand<ButtonVM>((p)=> 
-            {
-                string msg = p.ToString() + "@" + !p.State;
-                //com.Send(msg);
-                GuiUpdate(msg);
-            },(p)=> { return !com.IsServer; });
+
 
 
         }
@@ -94,15 +98,15 @@ namespace Training1._1.ViewModel
         {
             App.Current.Dispatcher.Invoke(() =>
             {
-                string buttonvm = msg.Split('@')[0];
+                string buttonname = msg.Split('@')[0];
                 string newstate = msg.Split('@')[1];
 
                 foreach (var button in Buttons)
                 {
-                    if (button.ToString().Equals(buttonvm))
+                    if (button.Name.Equals(buttonname))
                     {
                         button.State = bool.Parse(newstate);
-                        Log.Add(button.ToString() + " new State: " + button.State.ToString());
+                        Log.Add(button.Name + " new State: " + button.State.ToString());
                     }
                 } 
 
